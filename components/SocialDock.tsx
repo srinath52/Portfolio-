@@ -6,7 +6,7 @@ const SocialDock: React.FC = () => {
   const socials = [
     { 
       name: 'LinkedIn', 
-      url: 'https://www.linkedin.com/in/mohanasrinath-k', 
+      url: 'https://www.linkedin.com/in/mohanasrinath', 
       icon: Linkedin,
       color: 'hover:text-blue-500'
     },
