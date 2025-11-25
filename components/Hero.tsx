@@ -28,17 +28,11 @@ const Hero: React.FC = () => {
                src="https://drive.google.com/thumbnail?id=1J3mIINjzKX2Eb7AaxlStPM76sWIr35Ny&sz=w1000" 
                alt="Mohanasrinath K" 
                className="w-full h-full object-cover"
+               loading="eager"
+               referrerPolicy="no-referrer"
              />
           </motion.div>
           
-          {/* Decorative Glitch Bits */}
-          <motion.div 
-            className="absolute -right-4 top-4 text-[10px] font-mono text-accent-day dark:text-neon-gold"
-            animate={{ opacity: [0, 1, 0] }}
-            transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-          >
-            AI_CORE
-          </motion.div>
         </div>
 
         {/* Text Content */}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Linkedin, Mail, Globe } from 'lucide-react';
+import { Linkedin, Mail, Globe, Github } from 'lucide-react';
 
 const SocialDock: React.FC = () => {
   const socials = [
@@ -9,6 +9,12 @@ const SocialDock: React.FC = () => {
       url: 'https://www.linkedin.com/in/mohanasrinath-k', 
       icon: Linkedin,
       color: 'hover:text-blue-500'
+    },
+    { 
+      name: 'GitHub', 
+      url: 'https://github.com/srinath52', 
+      icon: Github,
+      color: 'hover:text-gray-900 dark:hover:text-white'
     },
     { 
       name: 'Behance', 
