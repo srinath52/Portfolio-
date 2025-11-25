@@ -25,7 +25,7 @@ const Hero: React.FC = () => {
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
              <img 
-               src="image_gallery/profile.jpg" 
+               src="https://drive.google.com/thumbnail?id=1J3mIINjzKX2Eb7AaxlStPM76sWIr35Ny&sz=w1000" 
                alt="Mohanasrinath K" 
                className="w-full h-full object-cover"
              />
