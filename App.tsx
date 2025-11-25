@@ -8,6 +8,7 @@ import EducationContact from './components/EducationContact';
 import CustomCursor from './components/CustomCursor';
 import Preloader from './components/Preloader';
 import FluidBackground from './components/FluidBackground';
+import ScrollProgress from './components/ScrollProgress';
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -86,7 +87,7 @@ const App: React.FC = () => {
         >
           {/* Interactive Fluid Background */}
           <FluidBackground />
-
+          <ScrollProgress />
           <CustomCursor />
           
           <div className="relative z-10">

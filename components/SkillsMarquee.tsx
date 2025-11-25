@@ -40,25 +40,9 @@ const SkillsMarquee: React.FC = () => {
       {/* Background Gradients */}
       <div className="absolute inset-0 bg-gradient-to-r from-day via-transparent to-day dark:from-void dark:via-transparent dark:to-void z-10 pointer-events-none" />
       
-      {/* CSS Animation Styles injected locally for the marquee */}
-      <style>
-        {`
-          @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          .animate-scroll {
-            animation: scroll 40s linear infinite;
-          }
-          .animate-scroll:hover {
-            animation-play-state: paused;
-          }
-        `}
-      </style>
-
       <div className="flex overflow-hidden group">
         <div 
-          className="flex gap-8 px-4 animate-scroll w-max"
+          className="flex gap-8 px-4 animate-scroll w-max hover:[animation-play-state:paused]"
         >
           {/* Duplicate list to create seamless loop */}
           {[...skills, ...skills, ...skills, ...skills].map((skill, index) => (

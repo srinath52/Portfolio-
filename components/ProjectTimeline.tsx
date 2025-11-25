@@ -1,6 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { Project } from '../types';
+import { ArrowUpRight } from 'lucide-react';
 
 const projects: Project[] = [
   {
@@ -11,7 +12,7 @@ const projects: Project[] = [
   {
     title: "Pose Estimation",
     tech: "Computer Vision (Mini Project)",
-    description: "Implemented real-time human pose estimation for motion analysis."
+    description: "Implemented real-time human pose estimation for motion analysis using OpenCV."
   },
   {
     title: "AI Communication System",
@@ -21,17 +22,17 @@ const projects: Project[] = [
   {
     title: "Polio Landing Page",
     tech: "UI/UX Design",
-    description: "Designed a comprehensive landing page for Polio awareness campaigns (2024)."
+    description: "Designed a comprehensive, accessible landing page for Polio awareness campaigns (2024)."
   },
   {
     title: "Levieditor",
     tech: "Product Design",
-    description: "created visually engaging interfaces and workflows for editing software."
+    description: "Created visually engaging interfaces and workflows for web-based editing software."
   },
   {
     title: "Circle",
     tech: "App Design",
-    description: "Mobile application interface design focusing on community interaction."
+    description: "Mobile application interface design focusing on community interaction and social connectivity."
   }
 ];
 
@@ -45,9 +46,8 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
     offset: ["start end", "center center"]
   });
 
-  const scrollY = useTransform(scrollYProgress, [0, 1], [100, 0]);
+  const scrollY = useTransform(scrollYProgress, [0, 1], [50, 0]);
   const scrollOpacity = useTransform(scrollYProgress, [0, 0.8], [0, 1]);
-  const scrollScale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
   
   // 3D Tilt Effect logic
   const x = useMotionValue(0);
@@ -68,7 +68,6 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
     const mouseXPos = e.clientX - rect.left;
     const mouseYPos = e.clientY - rect.top;
     
-    // Calculate normalized position (-0.5 to 0.5)
     const xPct = (mouseXPos / width) - 0.5;
     const yPct = (mouseYPos / height) - 0.5;
     
@@ -84,7 +83,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
   return (
     <motion.div
       ref={cardRef}
-      style={{ y: scrollY, opacity: scrollOpacity, scale: scrollScale }}
+      style={{ y: scrollY, opacity: scrollOpacity }}
       className={`relative w-full md:w-[45%] mb-12 md:mb-24 ${
         isEven ? 'md:mr-auto md:text-right md:pr-12' : 'md:ml-auto md:text-left md:pl-12'
       } text-left perspective-1000`}
@@ -110,7 +109,9 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
           rotateY: rotateY,
           transformStyle: "preserve-3d",
         }}
-        className="group relative p-6 md:p-8 rounded-xl bg-white/50 dark:bg-glass-start backdrop-blur-lg border border-gray-200 dark:border-white/5 transition-colors duration-300 shadow-sm dark:shadow-none overflow-hidden"
+        whileHover={{ scale: 1.02, y: -5 }}
+        whileTap={{ scale: 0.98 }}
+        className="group relative p-6 md:p-8 rounded-xl bg-white/50 dark:bg-glass-start backdrop-blur-lg border border-gray-200 dark:border-white/5 transition-all duration-300 shadow-sm dark:shadow-none hover:shadow-2xl hover:shadow-accent-day/10 dark:hover:shadow-neon-gold/10 overflow-hidden min-h-[180px] cursor-pointer"
       >
         {/* Dynamic Glare Effect */}
         <motion.div 
@@ -122,14 +123,22 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 
         <div className="absolute inset-0 bg-gradient-to-br from-accent-day/5 dark:from-neon-gold/5 to-neon-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
         
+        {/* Top Right Interaction Icon */}
+        <div className="absolute top-6 right-6 z-30 pointer-events-none">
+           <ArrowUpRight 
+             size={24} 
+             className="text-gray-300 dark:text-white/20 transition-all duration-300 group-hover:text-accent-day dark:group-hover:text-neon-gold group-hover:translate-x-1 group-hover:-translate-y-1 scale-90 group-hover:scale-110" 
+           />
+        </div>
+
         {/* Content with subtle Z-index lift */}
-        <div style={{ transform: "translateZ(20px)" }}>
-            <h3 className="text-2xl md:text-3xl font-bold mb-2 text-gray-900 dark:text-white group-hover:text-accent-day dark:group-hover:text-neon-gold transition-colors">
-            {project.title}
+        <div style={{ transform: "translateZ(20px)" }} className="flex flex-col h-full relative z-20 pointer-events-none">
+            <h3 className="text-xl md:text-3xl font-bold mb-2 text-gray-900 dark:text-white group-hover:text-accent-day dark:group-hover:text-neon-gold transition-colors pr-8">
+              {project.title}
             </h3>
-            <p className="text-sm font-mono text-neon-cyan mb-4 font-semibold">{project.tech}</p>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm md:text-base">
-            {project.description}
+            <p className="text-xs md:text-sm font-mono text-neon-cyan mb-4 font-semibold uppercase tracking-wider">{project.tech}</p>
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm md:text-base flex-grow">
+              {project.description}
             </p>
         </div>
       </motion.div>
@@ -151,16 +160,16 @@ const ProjectTimeline: React.FC = () => {
   });
 
   return (
-    <section ref={containerRef} className="relative py-20 md:py-32 px-4 max-w-7xl mx-auto min-h-screen theme-transition overflow-visible">
+    <section ref={containerRef} className="relative py-20 md:py-32 px-4 max-w-7xl mx-auto min-h-screen theme-transition overflow-hidden">
       <div className="text-center mb-16 md:mb-24">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="text-3xl md:text-6xl font-bold mb-4 text-gray-900 dark:text-white"
+          className="text-3xl md:text-6xl font-bold mb-4 text-gray-900 dark:text-white font-mono"
         >
           PROJECT <span className="text-accent-day dark:text-neon-gold">PROTOCOLS</span>
         </motion.h2>
-        <div className="h-1 w-20 bg-neon-purple mx-auto" />
+        <div className="h-1 w-20 bg-neon-purple mx-auto rounded-full" />
       </div>
 
       <div className="relative">
@@ -174,7 +183,7 @@ const ProjectTimeline: React.FC = () => {
         />
 
         {/* Project Cards Container - Padded left on mobile to clear the timeline line */}
-        <div className="flex flex-col pl-12 md:pl-0">
+        <div className="flex flex-col pl-10 md:pl-0">
           {projects.map((project, index) => (
             <ProjectCard key={index} project={project} index={index} />
           ))}

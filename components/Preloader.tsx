@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface PreloaderProps {
   onLoadingComplete: () => void;
@@ -8,7 +8,11 @@ interface PreloaderProps {
 const Preloader: React.FC<PreloaderProps> = ({ onLoadingComplete }) => {
   const [text, setText] = useState("INITIALIZING SYSTEM...");
   
+  // Hero image URL to preload
+  const HERO_IMAGE_URL = "https://lh3.googleusercontent.com/d/1J3mIINjzKX2Eb7AaxlStPM76sWIr35Ny=s1000";
+
   useEffect(() => {
+    // 1. Animation Steps sequence
     const steps = [
       { t: "INITIALIZING SYSTEM...", d: 800 },
       { t: "ESTABLISHING NEURAL LINK...", d: 1500 },
@@ -18,6 +22,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onLoadingComplete }) => {
 
     let timeouts: ReturnType<typeof setTimeout>[] = [];
 
+    // Schedule text updates
     steps.forEach((step) => {
       const timeout = setTimeout(() => {
         setText(step.t);
@@ -25,10 +30,21 @@ const Preloader: React.FC<PreloaderProps> = ({ onLoadingComplete }) => {
       timeouts.push(timeout);
     });
 
-    const finalTimeout = setTimeout(() => {
+    // 2. Preload the Critical Image
+    const preloadImage = new Promise((resolve) => {
+      const img = new Image();
+      img.src = HERO_IMAGE_URL;
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false); // Resolve even on error to not block app
+    });
+
+    // 3. Minimum Animation Time
+    const minTime = new Promise((resolve) => setTimeout(resolve, 3500));
+
+    // 4. Wait for BOTH (Animation done AND Image loaded)
+    Promise.all([minTime, preloadImage]).then(() => {
       onLoadingComplete();
-    }, 3500);
-    timeouts.push(finalTimeout);
+    });
 
     return () => {
       timeouts.forEach(clearTimeout);
