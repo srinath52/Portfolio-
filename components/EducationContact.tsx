@@ -1,5 +1,5 @@
 import React from 'react';
-import SectionWrapper from './SectionWrapper.tsx';
+import SectionWrapper from './SectionWrapper';
 import { Mail, MapPin, Award, Briefcase, GraduationCap, RotateCcw } from 'lucide-react';
 import { motion } from 'framer-motion';
 

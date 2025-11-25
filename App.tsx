@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
-import Hero from './components/Hero.tsx';
-import SocialDock from './components/SocialDock.tsx';
-import SkillsMarquee from './components/SkillsMarquee.tsx';
-import ProjectTimeline from './components/ProjectTimeline.tsx';
-import EducationContact from './components/EducationContact.tsx';
-import CustomCursor from './components/CustomCursor.tsx';
-import Preloader from './components/Preloader.tsx';
+import Hero from './components/Hero';
+import SocialDock from './components/SocialDock';
+import SkillsMarquee from './components/SkillsMarquee';
+import ProjectTimeline from './components/ProjectTimeline';
+import EducationContact from './components/EducationContact';
+import CustomCursor from './components/CustomCursor';
+import Preloader from './components/Preloader';
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);

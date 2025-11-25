@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import type { Project } from '../types.ts';
+import { Project } from '../types';
 
 const projects: Project[] = [
   {
