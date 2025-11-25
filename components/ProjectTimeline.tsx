@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import React, { useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { Project } from '../types';
 
 const projects: Project[] = [
@@ -37,23 +37,57 @@ const projects: Project[] = [
 
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
   const isEven = index % 2 === 0;
-  const cardRef = useRef(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  // Scroll Animations
   const { scrollYProgress } = useScroll({
     target: cardRef,
     offset: ["start end", "center center"]
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [100, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [0, 1]);
-  const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
+  const scrollY = useTransform(scrollYProgress, [0, 1], [100, 0]);
+  const scrollOpacity = useTransform(scrollYProgress, [0, 0.8], [0, 1]);
+  const scrollScale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
   
+  // 3D Tilt Effect logic
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  
+  const mouseX = useSpring(x, { stiffness: 150, damping: 15 });
+  const mouseY = useSpring(y, { stiffness: 150, damping: 15 });
+  
+  const rotateX = useTransform(mouseY, [-0.5, 0.5], ["7deg", "-7deg"]);
+  const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-7deg", "7deg"]);
+  const glareX = useTransform(mouseX, [-0.5, 0.5], ["0%", "100%"]);
+  const glareY = useTransform(mouseY, [-0.5, 0.5], ["0%", "100%"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseXPos = e.clientX - rect.left;
+    const mouseYPos = e.clientY - rect.top;
+    
+    // Calculate normalized position (-0.5 to 0.5)
+    const xPct = (mouseXPos / width) - 0.5;
+    const yPct = (mouseYPos / height) - 0.5;
+    
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
   return (
     <motion.div
       ref={cardRef}
-      style={{ y, opacity, scale }}
+      style={{ y: scrollY, opacity: scrollOpacity, scale: scrollScale }}
       className={`relative w-full md:w-[45%] mb-12 md:mb-24 ${
         isEven ? 'md:mr-auto md:text-right md:pr-12' : 'md:ml-auto md:text-left md:pl-12'
-      } text-left`}
+      } text-left perspective-1000`}
     >
       {/* Connector Line to Center - Hidden on Mobile */}
       <div 
@@ -67,19 +101,37 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
         }`} 
       />
 
+      {/* Tilt Container */}
       <motion.div
-        whileHover={{ scale: 1.02 }}
-        className="group relative p-6 md:p-8 rounded-xl bg-white/50 dark:bg-glass-start backdrop-blur-lg border border-gray-200 dark:border-white/5 hover:border-accent-day/50 dark:hover:border-neon-gold/50 transition-colors duration-300 shadow-sm dark:shadow-none"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          rotateX: rotateX,
+          rotateY: rotateY,
+          transformStyle: "preserve-3d",
+        }}
+        className="group relative p-6 md:p-8 rounded-xl bg-white/50 dark:bg-glass-start backdrop-blur-lg border border-gray-200 dark:border-white/5 transition-colors duration-300 shadow-sm dark:shadow-none overflow-hidden"
       >
+        {/* Dynamic Glare Effect */}
+        <motion.div 
+          style={{
+            background: `radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.15), transparent 60%)`
+          }}
+          className="absolute inset-0 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-overlay"
+        />
+
         <div className="absolute inset-0 bg-gradient-to-br from-accent-day/5 dark:from-neon-gold/5 to-neon-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
         
-        <h3 className="text-2xl md:text-3xl font-bold mb-2 text-gray-900 dark:text-white group-hover:text-accent-day dark:group-hover:text-neon-gold transition-colors">
-          {project.title}
-        </h3>
-        <p className="text-sm font-mono text-neon-cyan mb-4 font-semibold">{project.tech}</p>
-        <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm md:text-base">
-          {project.description}
-        </p>
+        {/* Content with subtle Z-index lift */}
+        <div style={{ transform: "translateZ(20px)" }}>
+            <h3 className="text-2xl md:text-3xl font-bold mb-2 text-gray-900 dark:text-white group-hover:text-accent-day dark:group-hover:text-neon-gold transition-colors">
+            {project.title}
+            </h3>
+            <p className="text-sm font-mono text-neon-cyan mb-4 font-semibold">{project.tech}</p>
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm md:text-base">
+            {project.description}
+            </p>
+        </div>
       </motion.div>
     </motion.div>
   );
@@ -99,7 +151,7 @@ const ProjectTimeline: React.FC = () => {
   });
 
   return (
-    <section ref={containerRef} className="relative py-20 md:py-32 px-4 max-w-7xl mx-auto min-h-screen theme-transition">
+    <section ref={containerRef} className="relative py-20 md:py-32 px-4 max-w-7xl mx-auto min-h-screen theme-transition overflow-visible">
       <div className="text-center mb-16 md:mb-24">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}

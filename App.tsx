@@ -7,6 +7,7 @@ import ProjectTimeline from './components/ProjectTimeline';
 import EducationContact from './components/EducationContact';
 import CustomCursor from './components/CustomCursor';
 import Preloader from './components/Preloader';
+import FluidBackground from './components/FluidBackground';
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -83,12 +84,8 @@ const App: React.FC = () => {
           animate={animationState}
           className="min-h-screen bg-day dark:bg-void text-gray-900 dark:text-white selection:bg-accent-day dark:selection:bg-neon-gold selection:text-white dark:selection:text-black md:cursor-none relative overflow-hidden theme-transition origin-center"
         >
-          {/* Animated Background Blobs */}
-          <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden liquid-filter">
-             <div className="absolute top-0 left-1/4 w-96 h-96 bg-neon-purple/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] opacity-30 animate-blob" />
-             <div className="absolute top-0 right-1/4 w-96 h-96 bg-neon-cyan/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] opacity-30 animate-blob animation-delay-2000" />
-             <div className="absolute -bottom-32 left-1/3 w-96 h-96 bg-accent-day/20 dark:bg-neon-gold/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] opacity-30 animate-blob animation-delay-4000" />
-          </div>
+          {/* Interactive Fluid Background */}
+          <FluidBackground />
 
           <CustomCursor />
           

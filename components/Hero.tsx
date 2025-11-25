@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import SectionWrapper from './SectionWrapper';
+import HackerText from './HackerText';
 
 const Hero: React.FC = () => {
+  const [imgSrc, setImgSrc] = useState("https://lh3.googleusercontent.com/d/1J3mIINjzKX2Eb7AaxlStPM76sWIr35Ny=s1000");
+  const fallbackSrc = "https://avatars.githubusercontent.com/srinath52";
+
   return (
     <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden pt-20 theme-transition">
       
@@ -14,7 +18,7 @@ const Hero: React.FC = () => {
         {/* Profile Image Container */}
         <div className="relative w-48 h-48 md:w-64 md:h-64 mb-10 flex items-center justify-center group">
           
-          {/* Rotating Rings - Simplified */}
+          {/* Rotating Rings */}
           <div className="absolute inset-0 rounded-full border border-neon-cyan/30 animate-spin-slow" />
           <div className="absolute -inset-2 rounded-full border border-neon-purple/20 animate-spin-slow shadow-[0_0_15px_rgba(189,0,255,0.1)]" style={{ animationDirection: 'reverse' }} />
           
@@ -25,7 +29,8 @@ const Hero: React.FC = () => {
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
              <img 
-               src="https://drive.google.com/thumbnail?id=1J3mIINjzKX2Eb7AaxlStPM76sWIr35Ny&sz=w1000" 
+               src={imgSrc}
+               onError={() => setImgSrc(fallbackSrc)}
                alt="Mohanasrinath K" 
                className="w-full h-full object-cover"
                loading="eager"
@@ -35,23 +40,34 @@ const Hero: React.FC = () => {
           
         </div>
 
-        {/* Text Content */}
-        <h1 className="text-4xl sm:text-6xl md:text-8xl font-extrabold tracking-tight mb-6 relative z-10">
-          <span className="bg-clip-text text-transparent bg-gradient-to-b from-gray-900 via-gray-700 to-gray-500 dark:from-white dark:via-gray-100 dark:to-gray-500 drop-shadow-sm dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.15)]">
-            MOHANASRINATH K
-          </span>
+        {/* Text Content with Hacker Effect */}
+        <h1 className="text-4xl sm:text-6xl md:text-8xl font-extrabold tracking-tight mb-6 relative z-10 font-mono">
+          <HackerText 
+            text="MOHANASRINATH K" 
+            className="bg-clip-text text-transparent bg-gradient-to-b from-gray-900 via-gray-700 to-gray-500 dark:from-white dark:via-gray-100 dark:to-gray-500 drop-shadow-sm dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.15)] cursor-default"
+          />
         </h1>
 
         <div className="h-px w-32 bg-gradient-to-r from-neon-cyan via-accent-day dark:via-neon-gold to-neon-purple my-6" />
 
-        <p className="text-base sm:text-lg md:text-2xl text-gray-700 dark:text-gray-300 font-mono tracking-wide max-w-3xl px-2">
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          className="text-base sm:text-lg md:text-2xl text-gray-700 dark:text-gray-300 font-mono tracking-wide max-w-3xl px-2"
+        >
           <span className="text-neon-cyan">&lt;</span> Generative AI Developer <span className="text-accent-day dark:text-neon-gold px-2">+</span> UI/UX Designer <span className="text-neon-cyan">/&gt;</span>
-        </p>
+        </motion.p>
         
-        <p className="mt-6 text-gray-600 dark:text-gray-400 text-sm md:text-base max-w-2xl mx-auto leading-relaxed border border-gray-200 dark:border-white/5 p-4 rounded-xl bg-white/50 dark:bg-white/5 backdrop-blur-sm shadow-sm dark:shadow-none">
+        <motion.p 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 1 }}
+          className="mt-6 text-gray-600 dark:text-gray-400 text-sm md:text-base max-w-2xl mx-auto leading-relaxed border border-gray-200 dark:border-white/5 p-4 rounded-xl bg-white/50 dark:bg-white/5 backdrop-blur-sm shadow-sm dark:shadow-none"
+        >
           Specializing in deploying LLMs, Stable Diffusion, and creating user-centered AI solutions. 
           Innovating at the intersection of Design and Artificial Intelligence.
-        </p>
+        </motion.p>
 
       </SectionWrapper>
       
