@@ -56,7 +56,7 @@ const Hero: React.FC = () => {
           transition={{ delay: 0.5, duration: 0.8 }}
           className="text-base sm:text-lg md:text-2xl text-gray-700 dark:text-gray-300 font-mono tracking-wide max-w-3xl px-2"
         >
-          <span className="text-neon-cyan">&lt;</span> Generative AI Developer <span className="text-accent-day dark:text-neon-gold px-2">+</span> UI/UX Designer <span className="text-neon-cyan">/&gt;</span>
+          <span className="text-neon-cyan">&lt;</span> Prompt Engineer <span className="text-accent-day dark:text-neon-gold px-2">+</span> UI/UX Designer <span className="text-neon-cyan">/&gt;</span>
         </motion.p>
         
         <motion.p 

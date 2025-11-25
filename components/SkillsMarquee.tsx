@@ -1,43 +1,92 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { 
+  BrainCircuit, 
+  Image, 
+  Zap, 
+  MessageSquareCode, 
+  Bot, 
+  Terminal, 
+  Cpu, 
+  PenTool, 
+  Layout, 
+  Sparkles, 
+  Frame, 
+  Github, 
+  Palette,
+  Layers
+} from 'lucide-react';
 
 const skills = [
-  "Gen AI", "Stable Diffusion", "Flux", "Ollama", "LM Studio", 
-  "Python", "ReactJS", "Figma", "UI/UX", "Prompt Engineering", 
-  "Wireframing", "Prototyping", "GitHub", "Adobe Photoshop"
+  { name: "Gen AI", icon: BrainCircuit, color: "text-neon-cyan" },
+  { name: "Stable Diffusion", icon: Image, color: "text-purple-500" },
+  { name: "Flux", icon: Zap, color: "text-yellow-400" },
+  { name: "Ollama", icon: MessageSquareCode, color: "text-orange-400" },
+  { name: "LM Studio", icon: Bot, color: "text-green-400" },
+  { name: "Python", icon: Terminal, color: "text-blue-500" },
+  { name: "ReactJS", icon: Cpu, color: "text-cyan-400" },
+  { name: "Figma", icon: PenTool, color: "text-pink-500" },
+  { name: "UI/UX", icon: Layout, color: "text-indigo-400" },
+  { name: "Prompt Engineering", icon: Sparkles, color: "text-neon-gold" },
+  { name: "Wireframing", icon: Frame, color: "text-gray-400" },
+  { name: "Prototyping", icon: Layers, color: "text-teal-400" },
+  { name: "GitHub", icon: Github, color: "text-white" },
+  { name: "Adobe Photoshop", icon: Palette, color: "text-blue-600" }
 ];
 
 const SkillsMarquee: React.FC = () => {
   return (
-    <div className="relative py-12 bg-day dark:bg-void border-y border-gray-200 dark:border-white/5 overflow-hidden theme-transition">
-      <div className="absolute inset-0 bg-gradient-to-r from-day via-transparent to-day dark:from-void dark:via-transparent dark:to-void z-10 pointer-events-none theme-transition" />
+    <div className="relative py-16 bg-day dark:bg-void border-y border-gray-200 dark:border-white/5 overflow-hidden theme-transition z-20">
+      {/* Background Gradients */}
+      <div className="absolute inset-0 bg-gradient-to-r from-day via-transparent to-day dark:from-void dark:via-transparent dark:to-void z-10 pointer-events-none" />
       
-      <motion.div 
-        className="flex whitespace-nowrap"
-        animate={{ x: [0, -1000] }}
-        transition={{ 
-          repeat: Infinity, 
-          duration: 35, 
-          ease: "linear" 
-        }}
-      >
-        {[...Array(4)].map((_, i) => (
-          <div key={i} className="flex gap-8 md:gap-16 px-4 md:px-8">
-            {skills.map((skill, index) => (
-              <span 
-                key={`${skill}-${i}`} 
-                className={`text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r 
-                  ${index % 3 === 0 ? 'from-accent-day dark:from-neon-gold to-yellow-600' : 
-                    index % 3 === 1 ? 'from-neon-cyan to-blue-600' : 
-                    'from-neon-purple to-purple-600'} 
-                  hover:brightness-125 transition-all duration-500 cursor-default font-mono opacity-60 hover:opacity-100`}
-              >
-                {skill}
+      {/* CSS Animation Styles injected locally for the marquee */}
+      <style>
+        {`
+          @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .animate-scroll {
+            animation: scroll 40s linear infinite;
+          }
+          .animate-scroll:hover {
+            animation-play-state: paused;
+          }
+        `}
+      </style>
+
+      <div className="flex overflow-hidden group">
+        <div 
+          className="flex gap-8 px-4 animate-scroll w-max"
+        >
+          {/* Duplicate list to create seamless loop */}
+          {[...skills, ...skills, ...skills, ...skills].map((skill, index) => (
+            <motion.div
+              key={`${skill.name}-${index}`}
+              className="group/item relative flex items-center gap-3 px-6 py-3 rounded-full bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 backdrop-blur-sm cursor-pointer hover:bg-white dark:hover:bg-white/10 transition-colors"
+              whileHover={{ 
+                scale: 1.1, 
+                boxShadow: "0 0 20px rgba(0, 243, 255, 0.2)",
+                borderColor: "rgba(0, 243, 255, 0.5)",
+                rotate: 2
+              }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <skill.icon 
+                size={20} 
+                className={`${skill.color} transition-transform group-hover/item:rotate-12`} 
+              />
+              <span className="text-sm md:text-base font-bold text-gray-700 dark:text-gray-200 font-mono whitespace-nowrap">
+                {skill.name}
               </span>
-            ))}
-          </div>
-        ))}
-      </motion.div>
+              
+              {/* Glow Effect */}
+              <div className="absolute inset-0 rounded-full opacity-0 group-hover/item:opacity-20 bg-current transition-opacity" style={{ color: skill.color }} />
+            </motion.div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
