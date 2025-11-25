@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mohanasrinath K | Gen AI Developer & UI/UX Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              void: '#050505',
+              day: '#f0f4f8', // Light mode background
+              'accent-day': '#d97706', // Darker Amber/Gold for Light Mode text
+              neon: {
+                cyan: '#00f3ff',
+                purple: '#bd00ff',
+                gold: '#FFD700', // Bright Gold for Dark Mode
+              },
+              glass: {
+                start: 'rgba(255, 255, 255, 0.05)',
+                end: 'rgba(255, 255, 255, 0.01)',
+                border: 'rgba(255, 255, 255, 0.1)',
+                dark: 'rgba(0, 0, 0, 0.05)', // Glass for light mode
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            },
+            animation: {
+              'spin-slow': 'spin 10s linear infinite',
+              'pulse-fast': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'reverse-spin': 'spin 1s linear infinite reverse',
+              'blob': 'blob 7s infinite',
+              'morph': 'morph 8s ease-in-out infinite',
+              'glitch': 'glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite',
+            },
+            keyframes: {
+              blob: {
+                "0%": { transform: "translate(0px, 0px) scale(1)" },
+                "33%": { transform: "translate(30px, -50px) scale(1.1)" },
+                "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
+                "100%": { transform: "translate(0px, 0px) scale(1)" },
+              },
+              morph: {
+                "0%": { borderRadius: "60% 40% 30% 70%/60% 30% 70% 40%" },
+                "50%": { borderRadius: "30% 60% 70% 40%/50% 60% 30% 60%" },
+                "100%": { borderRadius: "60% 40% 30% 70%/60% 30% 70% 40%" }
+              },
+              glitch: {
+                "0%": { transform: "translate(0)" },
+                "20%": { transform: "translate(-2px, 2px)" },
+                "40%": { transform: "translate(-2px, -2px)" },
+                "60%": { transform: "translate(2px, 2px)" },
+                "80%": { transform: "translate(2px, -2px)" },
+                "100%": { transform: "translate(0)" }
+              }
+            },
+            backgroundImage: {
+              'grid-pattern': "linear-gradient(to right, #333 1px, transparent 1px), linear-gradient(to bottom, #333 1px, transparent 1px)",
+              'grid-pattern-light': "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      body {
+        overflow-x: hidden;
+      }
+      
+      /* Smooth Theme Transition */
+      .theme-transition, 
+      .theme-transition * {
+        transition-property: background-color, border-color, color, fill, stroke;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 500ms;
+      }
+
+      /* Time Reverse Effect */
+      body.time-reverse {
+        filter: invert(100%) hue-rotate(180deg);
+        animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both infinite;
+      }
+
+      @keyframes shake {
+        10%, 90% { transform: translate3d(-1px, 0, 0); }
+        20%, 80% { transform: translate3d(2px, 0, 0); }
+        30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+        40%, 60% { transform: translate3d(4px, 0, 0); }
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #050505;
+      }
+      .dark ::-webkit-scrollbar-track {
+        background: #050505;
+      }
+      html:not(.dark) ::-webkit-scrollbar-track {
+        background: #f0f4f8;
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #00f3ff;
+      }
+      
+      .cursor-dot,
+      .cursor-outline {
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        z-index: 9999;
+        pointer-events: none;
+      }
+      .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #00f3ff;
+        box-shadow: 0 0 10px #00f3ff;
+      }
+      .cursor-outline {
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(0, 243, 255, 0.5);
+        transition: width 0.2s, height 0.2s, background-color 0.2s;
+        mix-blend-mode: difference;
+      }
+      body:hover .cursor-outline.hovered {
+        width: 60px;
+        height: 60px;
+        background-color: rgba(0, 243, 255, 0.1);
+        border-color: #00f3ff;
+      }
+      
+      /* Liquid / Gooey Filter Class */
+      .liquid-filter {
+        filter: url(#goo);
+      }
+      
+      /* Delay utilities for blob animation */
+      .animation-delay-2000 {
+        animation-delay: 2s;
+      }
+      .animation-delay-4000 {
+        animation-delay: 4s;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^12.23.24",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-day text-gray-900 dark:bg-void dark:text-white">
+    <div id="root"></div>
+    <!-- SVG Filter for Liquid Motion Effects -->
+    <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+        </filter>
+      </defs>
+    </svg>
+  </body>
+</html>
