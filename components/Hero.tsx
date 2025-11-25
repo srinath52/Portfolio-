@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import SectionWrapper from './SectionWrapper';
-import HackerText from './HackerText';
+import SectionWrapper from './SectionWrapper.tsx';
+import HackerText from './HackerText.tsx';
 import { Sparkles, Cpu, ScanLine } from 'lucide-react';
 
 const Hero: React.FC = () => {
