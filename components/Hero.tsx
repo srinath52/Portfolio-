@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import SectionWrapper from './SectionWrapper';
+import SectionWrapper from './SectionWrapper.tsx';
 
 const Hero: React.FC = () => {
   return (

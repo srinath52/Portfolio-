@@ -192,10 +192,20 @@
   }
 }
 </script>
+<!-- Babel for in-browser transpilation -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
   <body class="bg-day text-gray-900 dark:bg-void dark:text-white">
-    <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+    <div id="root">
+        <!-- Fallback loading message -->
+        <div style="height: 100vh; display: flex; align-items: center; justify-content: center; background-color: #050505; color: #00f3ff; font-family: monospace;">
+            INITIALIZING NEURAL INTERFACE...
+        </div>
+    </div>
+    
+    <!-- Changed to text/babel and added presets for in-browser compilation -->
+    <script type="text/babel" data-type="module" data-presets="typescript,react" src="./index.tsx"></script>
+    
     <!-- SVG Filter for Liquid Motion Effects -->
     <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
       <defs>
